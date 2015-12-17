@@ -15,14 +15,14 @@ In practice, I haven't yet achieved freewheel's goals because the expected means
 
 I'm sure there is plenty of research into encoding data into images (steganography). I'd like the encoding to be able to survive a few interesting events:
 
- * Screenshotting on different DPI devices
+ * Screenshotting on mobile devices (with varying DPIs)
  * Transmission over social networks
  * Cropping/uncropping
  * All kinds of [shitpic][2] stuff
 
 I'll probably look into those techniques and see how far this could go.
 
-In the meantime, if you have a means of sharing images losslessly you can play my shitty version of Checkers with a friend!
+In the meantime, if you have a means of sharing images losslessly you can play my shitty version of Checkers with a friend! Save this image and upload it to https://jasonprado.github.io/freewheel/host.html to take a turn.
 
 ![Checkers](https://raw.github.com/jasonprado/freewheel/master/reds_turn.png)
 
