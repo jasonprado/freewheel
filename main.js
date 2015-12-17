@@ -34,7 +34,6 @@ function leftPadNumber(number) {
   return pad.substring(0, pad.length - str.length) + str;
 }
 
-// draws to canvas, is given existing state. call completion(newState) when done to generate a new png.
 var chessApp = function (canvas, state, completion) {
   var ctx = canvas.getContext('2d');
   
@@ -43,7 +42,8 @@ var chessApp = function (canvas, state, completion) {
   var boardHeight = HEIGHT - 2 * padding;
   var squareDimension = boardWidth / 8;
   
-  var boardState = state;
+  var turn = state.turn;
+  var boardState = state.board;
   
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
@@ -69,9 +69,53 @@ var chessApp = function (canvas, state, completion) {
       
     }
   }
+  
+  var turnText = turn == "R" ? "Red's Turn" : "Black's Turn";
+  ctx.font = "16px serif";
+  ctx.textAlign = "center";
+  ctx.fillText(turnText, WIDTH / 2, HEIGHT - 20, 320);
+  
+  var selectedRow = -1;
+  var selectedCol = -1;
+  canvas.addEventListener('click', function(event) {
+    var x = event.offsetX - padding, y = event.offsetY - padding;
+    var row = Math.floor(y / squareDimension);
+    var col = Math.floor(x / squareDimension);
+    
+    if (selectedRow == -1) {
+      selectedRow = row;
+      selectedCol = col;
+    } else {
+      if (turn == 'B') {
+        ctx.fillStyle = 'red';
+      } else {
+        ctx.fillStyle = 'black';
+      }
+      ctx.fillRect(padding + selectedCol * squareDimension, padding + selectedRow * squareDimension, squareDimension, squareDimension);
+      if (turn == 'B') {
+        ctx.fillStyle = 'black';
+      } else {
+        ctx.fillStyle = 'red';
+      }
+      ctx.beginPath();
+      ctx.arc(padding + col * squareDimension + squareDimension / 2, padding + row * squareDimension + squareDimension / 2, squareDimension / 2 - 4, 0, Math.PI * 2, true);
+      ctx.fill();
+    }
+    
+    state.board[selectedRow * 8 + selectedCol] = " ";
+    if (turn == 'B') {
+      state.turn = 'R';
+      state.board[row * 8 + col] = 'B';
+    } else {
+      state.turn = 'B';
+      state.board[row * 8 + col] = 'R';
+    }
+    
+    completion(state);
+  });
 }
 
-var chessInitialState = 
+var chessInitialState = { 'turn': 'B', 'board': 
   " R R R R" +
   "R R R R " +
   " R R R R" +
@@ -79,7 +123,8 @@ var chessInitialState =
   "        " +
   " B B B B" +
   "B B B B " +
-  " B B B B";
+  " B B B B"
+};
 
 function serializeCanvasAndState(canvas, state) {
   var output = HEADER;
