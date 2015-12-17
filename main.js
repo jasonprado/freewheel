@@ -34,102 +34,13 @@ function leftPadNumber(number) {
   return pad.substring(0, pad.length - str.length) + str;
 }
 
-var chessApp = function (canvas, state, completion) {
-  var ctx = canvas.getContext('2d');
-  
-  var padding = 40;
-  var boardWidth = WIDTH - 2 * padding;
-  var boardHeight = HEIGHT - 2 * padding;
-  var squareDimension = boardWidth / 8;
-  
-  var turn = state.turn;
-  var boardState = state.board;
-  
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      if ((i + j) % 2 == 0) {
-        ctx.fillStyle = 'red';
-      } else {
-        ctx.fillStyle = 'black';
-      }
-      ctx.fillRect(padding + j * squareDimension, padding + i * squareDimension, squareDimension, squareDimension);
-      
-      if (boardState[i * 8 + j] == 'R') {
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(padding + j * squareDimension + squareDimension / 2, padding + i * squareDimension + squareDimension / 2, squareDimension / 2 - 4, 0, Math.PI * 2, true);
-        ctx.fill();
-      }
-      if (boardState[i * 8 + j] == 'B') {
-        ctx.fillStyle = 'black';
-        ctx.beginPath();
-        ctx.arc(padding + j * squareDimension + squareDimension / 2, padding + i * squareDimension + squareDimension / 2, squareDimension / 2 - 4, 0, Math.PI * 2, true);
-        ctx.fill();
-      }
-      
-    }
-  }
-  
-  var turnText = turn == "R" ? "Red's Turn" : "Black's Turn";
-  ctx.font = "16px serif";
-  ctx.textAlign = "center";
-  ctx.fillText(turnText, WIDTH / 2, HEIGHT - 20, 320);
-  
-  var selectedRow = -1;
-  var selectedCol = -1;
-  canvas.addEventListener('click', function(event) {
-    var x = event.offsetX - padding, y = event.offsetY - padding;
-    var row = Math.floor(y / squareDimension);
-    var col = Math.floor(x / squareDimension);
-    
-    if (selectedRow == -1) {
-      selectedRow = row;
-      selectedCol = col;
-    } else {
-      if (turn == 'B') {
-        ctx.fillStyle = 'red';
-      } else {
-        ctx.fillStyle = 'black';
-      }
-      ctx.fillRect(padding + selectedCol * squareDimension, padding + selectedRow * squareDimension, squareDimension, squareDimension);
-      if (turn == 'B') {
-        ctx.fillStyle = 'black';
-      } else {
-        ctx.fillStyle = 'red';
-      }
-      ctx.beginPath();
-      ctx.arc(padding + col * squareDimension + squareDimension / 2, padding + row * squareDimension + squareDimension / 2, squareDimension / 2 - 4, 0, Math.PI * 2, true);
-      ctx.fill();
-    }
-    
-    state.board[selectedRow * 8 + selectedCol] = " ";
-    if (turn == 'B') {
-      state.turn = 'R';
-      state.board[row * 8 + col] = 'B';
-    } else {
-      state.turn = 'B';
-      state.board[row * 8 + col] = 'R';
-    }
-    
-    completion(state);
-  });
-}
-
-var chessInitialState = { 'turn': 'B', 'board': 
-  " R R R R" +
-  "R R R R " +
-  " R R R R" +
-  "        " +
-  "        " +
-  " B B B B" +
-  "B B B B " +
-  " B B B B"
-};
+// var chessInitialState = 
 
 function serializeCanvasAndState(canvas, state) {
   var output = HEADER;
   output += "0001"; // version
-  var code = chessApp.toString();
+  // var code = chessApp.toString();
+  var code = "";
   output += leftPadNumber(code.length);
   output += code;
   var serializedState = JSON.stringify(state);
@@ -185,13 +96,13 @@ function readDataFromImage(image) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) { 
-  chessApp(canvas, chessInitialState, function() {
-  });
+  // chessApp(canvas, chessInitialState, function() {
+  // });
   
-  serializeCanvasAndState(canvas, chessInitialState);
+  // serializeCanvasAndState(canvas, chessInitialState);
 
-  var outputImage = document.getElementById('serializedImage');
-  outputImage.src = canvas.toDataURL('image/png');
+  // var outputImage = document.getElementById('serializedImage');
+  // outputImage.src = canvas.toDataURL('image/png');
   
-  console.log(readDataFromImage(outputImage));
+  // console.log(readDataFromImage(outputImage));
 });
