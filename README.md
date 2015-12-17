@@ -20,7 +20,7 @@ I'm sure there is plenty of research into encoding data into images (steganograp
  * Cropping/uncropping
  * All kinds of [shitpic][2] stuff
 
-I'll probably look into those techniques and see how far this could go.
+I'll probably look into those techniques and see how far this could go. [Andrew Wansley][3] suggests [High Capacity Color Barcode][4] might be something to look into, and also Snapchat seems to have done a lot with QR codes that could help.
 
 In the meantime, if you have a means of sharing images losslessly you can play my shitty version of Checkers with a friend! Save this image and upload it to https://jasonprado.github.io/freewheel/host.html to take a turn.
 
@@ -28,3 +28,5 @@ In the meantime, if you have a means of sharing images losslessly you can play m
 
 [1]:https://twitter.com/artypapers/status/677212283634782208
 [2]:http://www.theawl.com/2014/12/the-triumphant-rise-of-the-shitpic
+[3]:https://github.com/awans
+[4]:https://en.wikipedia.org/wiki/High_Capacity_Color_Barcode
