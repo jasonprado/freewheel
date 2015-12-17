@@ -22,5 +22,9 @@ I'm sure there is plenty of research into encoding data into images (steganograp
 
 I'll probably look into those techniques and see how far this could go.
 
+In the meantime, if you have a means of sharing images losslessly you can play my shitty version of Checkers with a friend!
+
+![Checkers](https://raw.github.com/jasonprado/freewheel/master/reds_turn.png)
+
 [1]:https://twitter.com/artypapers/status/677212283634782208
 [2]:http://www.theawl.com/2014/12/the-triumphant-rise-of-the-shitpic
