@@ -2,10 +2,15 @@
 <html>
 <head>
   <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="vm.js"></script>
   <style type="text/css">
     canvas { border: 1px solid black; }
   </style>
 <body>
+
+<div>
+  Use this file to bootstrap a new freewheel image. Add a function and initial state then hit generate, then save the image and share it.
+</div>
 
 <textarea id="code" style="width:400px;height:600px;">
 function (canvas, state, completion) {
@@ -19,8 +24,8 @@ function (canvas, state, completion) {
   var turn = state.turn;
   var boardState = state.board;
 
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
+  for (var i = 0; i != 8; i++) {
+    for (var j = 0; j != 8; j++) {
       if ((i + j) % 2 == 0) {
         ctx.fillStyle = 'red';
       } else {
@@ -44,11 +49,18 @@ function (canvas, state, completion) {
     }
   }
 
-  var turnText = turn == "R" ? "Red's Turn" : "Black's Turn";
-  ctx.font = "16px serif";
-  ctx.textAlign = "center";
-  ctx.fillText(turnText, WIDTH / 2, HEIGHT - 20, 320);
+  var drawTurnText = function() {
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, HEIGHT - padding, WIDTH, padding);
+    ctx.fillStyle = 'black';
+    var turnText = state.turn == "R" ? "Red's Turn" : "Black's Turn";
+    ctx.font = "16px serif";
+    ctx.textAlign = "center";
+    ctx.fillText(turnText, WIDTH / 2, HEIGHT - 20, 320);
+  }
 
+  drawTurnText();
+  
   var selectedRow = -1;
   var selectedCol = -1;
   canvas.addEventListener('click', function(event) {
@@ -74,35 +86,32 @@ function (canvas, state, completion) {
       ctx.beginPath();
       ctx.arc(padding + col * squareDimension + squareDimension / 2, padding + row * squareDimension + squareDimension / 2, squareDimension / 2 - 4, 0, Math.PI * 2, true);
       ctx.fill();
-    }
   
-    state.board[selectedRow * 8 + selectedCol] = " ";
-    if (turn == 'B') {
-      state.turn = 'R';
-      state.board[row * 8 + col] = 'B';
-    } else {
-      state.turn = 'B';
-      state.board[row * 8 + col] = 'R';
+      var selectedLinearIndex = selectedRow * 8 + selectedCol;
+      state.board = state.board.substr(0, selectedLinearIndex) + ' ' + state.board.substr(selectedLinearIndex + 1);
+      var linearIndex = row * 8 + col;
+      if (turn == 'B') {
+        state.turn = 'R';
+        state.board = state.board.substr(0, linearIndex) + 'B' + state.board.substr(linearIndex + 1);
+      } else {
+        state.turn = 'B';
+        state.board = state.board.substr(0, linearIndex) + 'R' + state.board.substr(linearIndex + 1);
+      }
+    
+      selectedRow = -1;
+      selectedCol = -1
+      drawTurnText();
+    
+      completion(state);
     }
-  
-    completion(state);
   });
 }
 </textarea>
-<textarea id="state" style="width:400px;height:300px;">
-{ 
-  'turn': 'B', 
-  'board': 
-    " R R R R" +
-    "R R R R " +
-    " R R R R" +
-    "        " +
-    "        " +
-    " B B B B" +
-    "B B B B " +
-    " B B B B"
-};
-</textarea>
+<textarea id="state" style="width:400px;height:300px;">{ 
+  "turn": "B", 
+  "board": 
+    " R R R RR R R R  R R R R                 B B B BB B B B  B B B B"
+}</textarea>
 <button id="generate">Generate</button>
 <br/>
 
@@ -116,11 +125,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var state = JSON.parse(document.getElementById('state').innerHTML);
     
     var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = 320;
+    canvas.height = 320;
 
     codeFn(canvas, state, function() {});
-    serializeCanvasAndState(canvas, state);
+    serializeCodeAndStateToCanvas(canvas, codeFn, state);
 
     var outputImage = document.getElementById('serializedImage');
     outputImage.src = canvas.toDataURL('image/png');

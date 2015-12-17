@@ -34,13 +34,14 @@ function leftPadNumber(number) {
   return pad.substring(0, pad.length - str.length) + str;
 }
 
-// var chessInitialState = 
+function replaceAt(s, index, character) {
+    return s.substr(0, index) + character + s.substr(index + character.length);
+}
 
-function serializeCanvasAndState(canvas, state) {
+function serializeCodeAndStateToCanvas(canvas, code, state) {
   var output = HEADER;
   output += "0001"; // version
-  // var code = chessApp.toString();
-  var code = "";
+  var code = code.toString();
   output += leftPadNumber(code.length);
   output += code;
   var serializedState = JSON.stringify(state);
@@ -94,15 +95,3 @@ function readDataFromImage(image) {
     state: state
   };
 }
-
-document.addEventListener("DOMContentLoaded", function(event) { 
-  // chessApp(canvas, chessInitialState, function() {
-  // });
-  
-  // serializeCanvasAndState(canvas, chessInitialState);
-
-  // var outputImage = document.getElementById('serializedImage');
-  // outputImage.src = canvas.toDataURL('image/png');
-  
-  // console.log(readDataFromImage(outputImage));
-});

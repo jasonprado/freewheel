@@ -2,19 +2,26 @@
 <html>
 <head>
   <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="vm.js"></script>
   <style type="text/css">
     canvas { border: 1px solid black; }
   </style>
 <body>
 
-<canvas id="canvas" width="320" height="320" style="border:1px solid #000000;">
+<canvas id="canvas" width="320" height="320" style="display:none;border:1px solid #000000;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 
 <br/>
 
-<img id="serializedImage" width="320" height="320" style="border:1px solid #00ffff;">
+<img id="serializedImage" width="320" height="320" style="display:none;border:1px solid #00ffff;">
 
-<div id="reconstructedString">
+
+<div id="explanation">
+  Upload an image with a freewheel program inside. See <a href="bootstrap.html">bootstrap</a> if you don't have one.
+  <br/>
+  <input type="file" id="fileinput" />
+</div>
+
 </body>
 </html>
